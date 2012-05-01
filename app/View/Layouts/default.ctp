@@ -29,7 +29,9 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 	<?php
 		echo $this->Html->meta('icon');
 
-		echo $this->Html->css('cake.generic');
+		echo $this->Html->css(array('cake.generic', 'jquery.fancybox'));
+
+		echo $this->Html->script(array('jquery.min', 'jquery.fancybox', 'actions'));
 	?>
 </head>
 <body>

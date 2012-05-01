@@ -42,6 +42,7 @@ class GalleryController extends AppController {
 		//generate the image links
 		for($i=0; $i<sizeof($photos['photos']['photo']); $i++){
 			$photos['photos']['photo'][$i]['url'] = $this->Flickr->flickr->buildPhotoURL($photos['photos']['photo'][$i], "small");
+			$photos['photos']['photo'][$i]['big_url'] = $this->Flickr->flickr->buildPhotoURL($photos['photos']['photo'][$i], "large");
 		}
 		$this->set('photos', $photos['photos']['photo']);
 		$this->set('page', $current);
