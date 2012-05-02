@@ -39,11 +39,6 @@ class GalleryController extends AppController {
 		$current = $photos['photos']['page'];
 		$this->set('pagination', $this->pagination($total_pages, $current));
 		
-		//generate the image links
-		for($i=0; $i<sizeof($photos['photos']['photo']); $i++){
-			$photos['photos']['photo'][$i]['url'] = $this->Flickr->flickr->buildPhotoURL($photos['photos']['photo'][$i], "small");
-			$photos['photos']['photo'][$i]['big_url'] = $this->Flickr->flickr->buildPhotoURL($photos['photos']['photo'][$i], "large");
-		}
 		$this->set('photos', $photos['photos']['photo']);
 		$this->set('page', $current);
 		$this->set('pages', $total_pages);
@@ -67,6 +62,12 @@ class GalleryController extends AppController {
 		
 		//grab the photos
 		$photos = $this->Flickr->flickr->people_getPublicPhotos($nsid, NULL, NULL, $per_page, $page);
+	
+		//generate the image links
+		for($i=0; $i<sizeof($photos['photos']['photo']); $i++){
+			$photos['photos']['photo'][$i]['url'] = $this->Flickr->flickr->buildPhotoURL($photos['photos']['photo'][$i], "small");
+			$photos['photos']['photo'][$i]['big_url'] = $this->Flickr->flickr->buildPhotoURL($photos['photos']['photo'][$i], "large");
+		}
 		
 		return $photos;
 	}
