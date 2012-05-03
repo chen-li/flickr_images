@@ -31,8 +31,24 @@ class GalleryController extends AppController {
 	 * @param int $page_num
 	 * @return void
 	 */
+	
+	/**
+	 * Flickr API Key
+	 * @var string
+	 */
+	public $_api_key='4adb53d4d20cbc08011dd91438908f0d';
+	
+	/**
+	 * Flickr username
+	 * @var string
+	 */
+	public $username="Chen 31";
+	
+	
+	
 	public function index($page_num=null){
-		$photos = $this->findPhotos($page_num, 10);
+		$this->Flickr->connectFlickr($this->_api_key);
+		$photos = $this->Flickr->findPhotos($this->username, $page_num, 10);
 		
 		//generate pagination
 		$total_pages = $photos['photos']['pages'];
@@ -43,33 +59,6 @@ class GalleryController extends AppController {
 		$this->set('page', $current);
 		$this->set('pages', $total_pages);
 		$this->set('total', $photos['photos']['total']);
-	}
-	
-	/**
-	 * connect to the flickr and return the photos in an array
-	 * @param int $current_page
-	 * @param int $per_page the number of the images showing up per page
-	 * @return array
-	 */
-	public function findPhotos($current_page=null, $per_page=10){
-		
-		//grab the user id
-		$user = $this->Flickr->flickr->people_findByUsername($this->Flickr->username);
-		$nsid = $user['id'];
-		
-		//indicates the current page number
-		$page = (isset($current_page))?$current_page:1;
-		
-		//grab the photos
-		$photos = $this->Flickr->flickr->people_getPublicPhotos($nsid, NULL, NULL, $per_page, $page);
-	
-		//generate the image links
-		for($i=0; $i<sizeof($photos['photos']['photo']); $i++){
-			$photos['photos']['photo'][$i]['url'] = $this->Flickr->flickr->buildPhotoURL($photos['photos']['photo'][$i], "small");
-			$photos['photos']['photo'][$i]['big_url'] = $this->Flickr->flickr->buildPhotoURL($photos['photos']['photo'][$i], "large");
-		}
-		
-		return $photos;
 	}
 	
 	/**
