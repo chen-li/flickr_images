@@ -70,7 +70,6 @@ class GalleryController extends AppController {
 	 */
 	public function pagination($all_pages, $current, $page_num_allowed=2){
 		$link = '/'.$this->params->params['controller'].'/'.$this->params->params['action'].'/';
-		$ajax_link = '/'.$this->params->params['controller'].'/view/';
 		
 		//if there are too many pages to show, only show the number of the pages that we defined and hide the rest of them
 		$this_page_section_start = (ceil($current/$page_num_allowed)*$page_num_allowed) - $page_num_allowed + 1;
@@ -79,7 +78,7 @@ class GalleryController extends AppController {
 		//paginate
 		$page_navg = array();
 		if (($current-1) > 0) {
-			$page_navg[] = '<a class="prev" href="'.$link.($current-1).'" rel="'.$ajax_link.($current-1).'"><span>&laquo; Prev</span> </a>';
+			$page_navg[] = '<a class="prev" href="'.$link.($current-1).'"><span>&laquo; Prev</span> </a>';
 		}
 		if($this_page_section_start > $page_num_allowed){
 			$page_navg[] = "<span>...</span>";
@@ -89,17 +88,17 @@ class GalleryController extends AppController {
 				if ($current==$i)
 					$page_navg[] = "<strong>".$i."</strong>";
 				else
-					$page_navg[] = '<a href="'.$link.$i.'" rel="'.$ajax_link.$i.'">'.$i.'</a>';
+					$page_navg[] = '<a href="'.$link.$i.'">'.$i.'</a>';
 			}
 		}
 		if($this_page_section_end < $all_pages){
 			$page_navg[] = "<span>...</span>";
 		}
 		if (($current+1) <= $all_pages){
-			$page_navg[] = '<a class="next" href="'.$link.($current+1).'" rel="'.$ajax_link.($current+1).'"> <span>Next &raquo;</span></a>';
+			$page_navg[] = '<a class="next" href="'.$link.($current+1).'"> <span>Next &raquo;</span></a>';
 		}
 		
 		return $page_navg;
-	}
+	}	
 }
 ?>
